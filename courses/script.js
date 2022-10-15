@@ -4,7 +4,7 @@ const table = document.getElementById('table');
 const tableBody = document.getElementById('table-body');
 
 const inputName = document.getElementById('input-name');
-const btnSalvar = document.getElementById('btn-salvar');
+const btnsave = document.getElementById('btn-save');
 const addbtn = document.getElementById('addbtn');
 
 let actualId = 0;
@@ -24,8 +24,8 @@ async function getCourses() {
     }
 }
 
-async function remover(id, name, row) {
-    const result = confirm('Você deseja remover o curso :' + name);
+async function remove(id, name, row) {
+    const result = confirm('Would like remove course : ' + name);
 
     if (result) {
         const response = await fetch(coursesUrl + "/" + id, {
@@ -38,15 +38,15 @@ async function remover(id, name, row) {
     }
 }
 
-async function salvar() {
+async function save() {
     if (actualId) {
         atualizar();
     } else {
-        adicionar();
+        insert();
     }
 }
 
-async function adicionar() {
+async function insert() {
     const name = inputName.value.trim();
 
     if (name) {
@@ -91,15 +91,15 @@ async function atualizar() {
     }
 }
 
-function abrirModalCriar() {
+function openModalCreate() {
     actualId = 0;
-    document.getElementById('formCouseLabel').textContent = 'Adicionar curso';
+    document.getElementById('formCourseLabel').textContent = 'insert curso';
     inputName.value = "";
 }
 
 function abrirModalAtualizar(courseId, name) {
     actualId = courseId;
-    document.getElementById('formCouseLabel').textContent = 'Editar curso';
+    document.getElementById('formCourseLabel').textContent = 'Editar curso';
     inputName.value = name;
 }
 
@@ -109,10 +109,12 @@ function removeModal() {
     for (let i = 0; i < elements.length; i++) {
         elements[i].classList.remove('show');
     }
+
+    window.location.reload();
 }
 
-btnSalvar.addEventListener('click', salvar);
-addbtn.addEventListener('click', abrirModalCriar);
+btnsave.addEventListener('click', save);
+addbtn.addEventListener('click', openModalCreate);
 
 function createRow({ id, name }) {
     const row = document.createElement('tr');
@@ -127,7 +129,7 @@ function createRow({ id, name }) {
     imgEdit.src = '../assets/edit.svg';
 
     const btnDelete = document.createElement('button');
-    btnDelete.addEventListener('click', () => remover(id, name, row));
+    btnDelete.addEventListener('click', () => remove(id, name, row));
     btnDelete.classList.add('btn');
     btnDelete.classList.add('button-ghost');
     btnDelete.appendChild(imgDelete);
