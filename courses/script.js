@@ -118,7 +118,7 @@ function createRow({ id, name }) {
     const row = document.createElement('tr');
     const idCollumn = document.createElement('th');
     const nameCollumn = document.createElement('td');
-    const acoesCollumn = document.createElement('td');
+    const actionsCollumn = document.createElement('td');
 
     const imgDelete = document.createElement('img');
     imgDelete.src = '../assets/delete.svg';
@@ -145,12 +145,12 @@ function createRow({ id, name }) {
 
     nameCollumn.textContent = name;
 
-    acoesCollumn.appendChild(btnDelete);
-    acoesCollumn.appendChild(btnEdit);
+    actionsCollumn.appendChild(btnDelete);
+    actionsCollumn.appendChild(btnEdit);
 
     row.appendChild(idCollumn);
     row.appendChild(nameCollumn);
-    row.appendChild(acoesCollumn);
+    row.appendChild(actionsCollumn);
 
     tableBody.appendChild(row);
 }
