@@ -1,7 +1,6 @@
-.container-fluid {
+.content-table {
     overflow: auto;
-    height: 80%;
-    width: 90%;
+    height: 85%;
 }
 
 .button-ghost {
