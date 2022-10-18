@@ -40,7 +40,7 @@ async function remove(id, name, row) {
 
 async function save() {
     if (actualId) {
-        atualizar();
+        update();
     } else {
         insert();
     }
@@ -68,7 +68,7 @@ async function insert() {
     }
 }
 
-async function atualizar() {
+async function update() {
     const name = inputName.value.trim();
 
     if (name) {
@@ -93,13 +93,13 @@ async function atualizar() {
 
 function openModalCreate() {
     actualId = 0;
-    document.getElementById('formCourseLabel').textContent = 'insert curso';
+    document.getElementById('formCourseLabel').textContent = 'Insert curso';
     inputName.value = "";
 }
 
-function abrirModalAtualizar(courseId, name) {
+function openModalupdate(courseId, name) {
     actualId = courseId;
-    document.getElementById('formCourseLabel').textContent = 'Editar curso';
+    document.getElementById('formCourseLabel').textContent = 'Edit course';
     inputName.value = name;
 }
 
@@ -120,7 +120,7 @@ function createRow({ id, name }) {
     const row = document.createElement('tr');
     const idCollumn = document.createElement('th');
     const nameCollumn = document.createElement('td');
-    const actionsCollumn = document.createElement('td');
+    const actionsCollumn = document.createElement('t    d');
 
     const imgDelete = document.createElement('img');
     imgDelete.src = '../assets/delete.svg';
@@ -137,7 +137,7 @@ function createRow({ id, name }) {
     const btnEdit = document.createElement('button');
     btnEdit.setAttribute('data-bs-toggle', 'modal');
     btnEdit.setAttribute('data-bs-target', '#form-course');
-    btnEdit.addEventListener('click', () => abrirModalAtualizar(id, name));
+    btnEdit.addEventListener('click', () => openModalupdate(id, name));
     btnEdit.classList.add('btn');
     btnEdit.classList.add('button-ghost');
     btnEdit.appendChild(imgEdit);

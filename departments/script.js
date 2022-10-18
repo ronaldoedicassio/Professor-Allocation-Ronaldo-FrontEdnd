@@ -23,9 +23,23 @@ async function getDepartments() {
     }
 }
 
+async function remove(id, name, row) {
+    const result = confirm('Would like remove course : ' + name);
+
+    if (result) {
+        const response = await fetch(departmentsUrl + "/" + id, {
+            method: 'DELETE',
+        });
+        if (response.ok) {
+            tableBody.removeChild(row);
+            window.location.reload();
+        }
+    }
+}
+
 async function save() {
     if (actualId) {
-        atualizar();
+        update();
     } else {
         insert();
     }
@@ -53,24 +67,40 @@ async function insert() {
     }
 }
 
-async function remove(id, name, row) {
-    const result = confirm('Would like remove course : ' + name);
+async function update() {
+    const name = inputName.value.trim();
 
-    if (result) {
-        const response = await fetch(departmentsUrl + "/" + id, {
-            method: 'DELETE',
+    if (name) {
+        const response = await fetch(departmentsUrl + "/" + actualId, {
+            method: 'PUT',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({
+                name
+            })
         });
         if (response.ok) {
-            tableBody.removeChild(row);
-            window.location.reload();
+            inputName.value = "";
+            removeModal();
+
+            tableBody.innerHTML = "";
+            getDepartments();
         }
     }
 }
 
+
 function openModalCreate() {
     actualId = 0;
-    document.getElementById('formCourseLabel').textContent = 'Insert curso';
+    document.getElementById('formDepartmentLabel').textContent = 'Insert Departament';
     inputName.value = "";
+}
+
+function openModalupdate(departmentId, name) {
+    actualId = departmentId;
+    document.getElementById('formDepartmentLabel').textContent = 'Edit department';
+    inputName.value = name;
 }
 
 function removeModal() {
@@ -107,7 +137,7 @@ function creatRow({ id, name }) {
     const btnEdit = document.createElement('button');
     btnEdit.setAttribute('data-bs-toggle', 'modal');
     btnEdit.setAttribute('data-bs-target', '#form-departments');
-    btnEdit.addEventListener('click', () => abrirModalAtualizar(id, name));
+    btnEdit.addEventListener('click', () => openModalupdate(id, name));
     btnEdit.classList.add('btn');
     btnEdit.classList.add('button-ghost');
     btnEdit.appendChild(imgEdit);
